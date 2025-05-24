@@ -1,0 +1,28 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+    int N, M, S=0, check=0;
+    cin >> N >> M;
+    int a[N][M], max[N]={0};
+    for(int i=0; i<N; i++){
+        for(int j=0; j<M; j++){
+            cin >> a[i][j];
+            if(a[i][j]>max[i]) max[i]=a[i][j];
+        }
+    }
+    
+    for(int i=0; i<N; i++){
+        S+=max[i];
+    }
+    cout << S << endl; //輸出每組最大值之合
+    
+    for(int i=0; i<N; i++){
+        if(S%max[i]==0){
+           cout << max[i] << " ";
+           check++;
+        } 
+    }
+    if(check==0) cout << -1;
+    return 0;
+}
