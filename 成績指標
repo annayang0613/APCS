@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int student, check=0;
+    cin >> student;
+    int Score[student];
+    for(int i=0; i<student; i++){
+        cin >> Score[i];
+    }
+    sort(Score,Score+student);//排序成績
+    for(int i=0; i<student; i++){ 
+        cout << Score[i] << " ";
+    }
+    cout << endl;
+    for(int i=student-1; i>=0; i--){ //找最大不及格
+        if(Score[i]>=60) continue;
+        else if(Score[i]<60){
+           cout << Score[i] << endl;
+           check++;
+           break;
+        } 
+    }
+    if(check==0){
+            cout << "best case\n";
+            check=2;
+        } 
+    for(int i=0; i<student; i++){ //找最小及格
+        if(Score[i]<60) continue;
+        else if(Score[i]>=60){
+           cout << Score[i] << endl; 
+           check++;
+           break;
+        } 
+    }
+    if(check==1) cout << "worst case\n";
+    return 0;
+}
