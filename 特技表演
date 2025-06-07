@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+    int building, Long=1, Longest=0;
+    cin >> building;
+    int high[building];
+    for(int i=0; i<building; i++){
+        cin >> high[i];
+        if(i==0) continue;
+        if(high[i]>=high[i-1]) {  //樓層比上一棟高 或齊平
+            if(Long>Longest) Longest=Long;
+            Long=1;
+        }
+        else{
+            Long++;
+            if(Long>Longest) Longest=Long;
+        }
+    }
+    cout << Longest;
+    return 0;
+}
