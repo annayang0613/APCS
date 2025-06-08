@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+  int x, n, small=0, big=0;
+  cin >> x >> n;
+  vector<int> N(n);
+  
+  for(int i=0; i<n; i++){
+    cin >> N[i];
+  }
+  
+  sort(N.begin(), N.end());
+  
+  for(int i=0; i<n; i++){ //判斷鼠鼠往哪個方向走會吃到比較多食物
+    if(N[i]<x) small++;
+    else big++;
+  }
+  
+  if(small>big) {
+    cout << small << " " << N[0];
+  }
+  else {
+    cout << big << " " << N[n-1];
+  }
+  return 0;
+}
