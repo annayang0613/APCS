@@ -1,0 +1,22 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+  int high, last=1, count=1;
+  cin >> high;
+  for(int i=1; i<high; i++) last+=2; //最後一行有多少*
+  for(int i=0; i<high; i++){
+    for(int j=0; j<(last-count)/2; j++){ //重複寬度減*除2的次數
+      cout << "_";
+    }
+    for(int i=0; i<count; i++){
+      cout << "*"; //輸出這行的*
+    }
+    for(int j=0; j<(last-count)/2; j++){
+      cout << "_";
+    }
+    cout << endl;
+    count+=2; //下一行的*
+  }
+  return 0;
+}
