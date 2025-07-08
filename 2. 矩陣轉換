@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+  int R, C, times;
+  int a[100][100]={0}, b[100]={0};
+  cin >> R >> C >> times;
+  for(int i=0; i<R; i++) { //輸入矩陣
+    for(int j=0; j<C; j++) {
+      cin >> a[i][j];
+    }
+  }
+  for(int i=0; i<times; i++) { //輸入轉換方式
+    cin >> b[i];
+  }
+  for(int i = times - 1; i >= 0; i--) {
+    if(b[i]==0) { //向左90度旋轉
+      int temp[100][100]={0}; 
+      for(int j=0; j<R; j++) { 
+        for(int k=0; k<C; k++) {
+          temp[C-k-1][j] = a[j][k];
+        }
+      }
+      for(int j=0; j<C; j++) { //把現矩陣放入舊區
+        for(int k=0; k<R; k++) {
+          a[j][k] = temp[j][k];
+        }
+      }
+      swap(R, C); //把長寬轉過來
+    }
+    else { //上下翻轉
+      for(int j=0; j<(R/2); j++) {
+        for(int k=0; k<C; k++) { 
+          swap(a[j][k],a[R-j-1][k]);
+        }
+      }
+    }
+  }
+    
+  cout << R << " " << C << "\n";
+  for(int i=0; i<R; i++) { //輸出矩陣
+    for(int j=0; j<C; j++) {
+      if(j>0 && j!=C) cout << " ";
+      cout << a[i][j];
+    }
+    cout <<endl;
+  }
+  return 0;
+}
