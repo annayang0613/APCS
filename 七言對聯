@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+  int n, first[7], sec[7];
+  string ans[1000] = {""};
+  cin >> n;
+  for(int i=0; i<n; i++) {
+    for(int j=0; j<7; j++) {
+      cin >> first[j];
+    }
+    for(int j=0; j<7; j++) {
+      cin >> sec[j];
+    }
+    if(first[1] == first[3] || sec[1] == sec[3] || first[1] != first[5] || sec[1] != sec[5]) ans[i] += "A"; //二四不同二六同
+    if(first[6] ==0 || sec[6] == 1) ans[i] += "B"; //仄起平收
+    for(int j=0; j<7; j++) {
+      if(j % 2 == 1) {
+        if(first[j] == sec[j]) {ans[i] += "C"; break;} //上下相對
+      }
+    }
+  }
+  
+for(int i = 0; i < n; i++) {
+  if(ans[i] == "") cout << "None";
+  else cout << ans[i];
+  cout << endl;
+}
+  return 0;
+}
