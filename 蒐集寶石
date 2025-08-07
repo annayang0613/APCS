@@ -18,7 +18,7 @@ int main(){
   nowPlace[1] = c;
   while(1) {
     if(overORhit==0) {
-      if(map[nowPlace[0]][nowPlace[1]] == 0) { break;}
+      if(map[nowPlace[0]][nowPlace[1]] == 0) break;
       score += map[nowPlace[0]][nowPlace[1]];
       map[nowPlace[0]][nowPlace[1]]--;
       pick++;
