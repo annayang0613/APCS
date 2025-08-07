@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+  int M, N, k, r, c, checkTimes=0, overORhit=0, pick=0; 
+  cin >> M >> N >> k >> r >> c;
+  vector<vector<int>> map(M, vector<int>(N)); 
+  int nowPlace[2]; //現在座標(y, x)
+  int dir = 0;
+  int y[4] = {-1, 0, 1, 0}, x[4] = {0, 1, 0, -1}; //上右下左
+  for(int i=0; i<M; i++) {
+    for(int j=0; j<N; j++) {
+      cin >> map[i][j];
+    }
+  }
+  int score = 0;
+  nowPlace[0] = r;
+  nowPlace[1] = c;
+  while(1) {
+    if(overORhit==0) {
+      if(map[nowPlace[0]][nowPlace[1]] == 0) { break;}
+      score += map[nowPlace[0]][nowPlace[1]];
+      map[nowPlace[0]][nowPlace[1]]--;
+      pick++;
+    }
+    if(checkTimes == 0 || score % k == 0 || overORhit ==1) { //剛開始、分數整除k、越界、撞牆 => 向右轉90度，往前一步
+      dir++; //轉向
+      dir %= 4;
+      int nextXmove = nowPlace[1]+x[dir], nextYmove = nowPlace[0]+y[dir];
+      if(nextXmove<0 || nextXmove>=N || nextYmove<0 || nextYmove>=M || map[nextYmove][nextXmove]==-1) { //越界或撞牆
+        overORhit = 1;
+        continue;
+      }
+      nowPlace[0] += y[dir];
+      nowPlace[1] += x[dir];
+      checkTimes=1;
+      overORhit=0;
+    }
+    else { //沒事就繼續往前
+      int nextXmove = nowPlace[1]+x[dir], nextYmove = nowPlace[0]+y[dir];
+      if(nextXmove<0 || nextXmove>=N || nextYmove<0 || nextYmove>=M || map[nextYmove][nextXmove]==-1) { //越界或撞牆
+        overORhit = 1;
+        continue;
+      }
+      nowPlace[0] += y[dir];
+      nowPlace[1] += x[dir];
+      overORhit=0;
+    }
+  }
+  cout << pick;
+  return 0;
+}
