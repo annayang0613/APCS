@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+  int m, n, k; //m X n，移動k次
+  int moveY[6] = {-1, 0, 1, 1, 0, -1}, moveX[6] = {0, 1, 1, 0, -1, -1}; //移動方向：右上，右，右下，左下，左，左上
+  string ans = "";
+  cin >> m >> n >> k;
+  vector<string> len(m);
+  vector<int> MOVE(k, 0);
+  int nowPlace[2] = {m-1, 0}; //開始位置
+  for(int i=0; i<m; i++) {
+    cin >> len[i];
+  }
+  for(int i=0; i<k; i++) {
+    cin >> MOVE[i];
+    int xCheck = nowPlace[1]+moveX[MOVE[i]], yCheck = nowPlace[0]+moveY[MOVE[i]];
+    if(xCheck>=0 && xCheck<n && yCheck>=0 && yCheck<m) { //如果下一步不會越界就走
+      nowPlace[1] += moveX[MOVE[i]];
+      nowPlace[0] += moveY[MOVE[i]];
+    }
+    ans += len[nowPlace[0]][nowPlace[1]];
+  }
+  char word[52] = {0};
+  int numAns=0;
+  for(int i=0; i<ans.length(); i++) {
+    int WORD=0;
+    if(ans[i]<'a') WORD = ans[i]-'A'+26;
+    else WORD = ans[i]-'a';
+    word[WORD]++;
+  }
+  for(int i=0; i<52; i++) {
+    if(word[i] != 0) numAns++;
+  }
+  cout << ans << endl << numAns;
+  return 0;
+}
