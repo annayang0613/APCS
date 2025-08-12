@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void Straight_Check(vector<vector<int>> MAP, vector<vector<int>> & VISITED, int x, int y);
+void Side_Check(vector<vector<int>> MAP, vector<vector<int>> & VISITED, int x, int y);
+int ans =0;
+
+int main() {
+  int n, m;
+  cin >> n >> m;
+  vector<vector<int>> map(n, vector<int>(m, 0));
+  vector<vector<int>> visited(n, vector<int>(m, 0));
+  for(int i=0; i<n; i++) {
+    for(int j=0; j<m; j++) {
+      cin >> map[i][j];
+    }
+  }
+  for(int i=0; i<n; i++) {
+    for(int j=0; j<m; j++) {
+      if(j != 0 && map[i][j] == map[i][j-1] && visited[i][j-1] == 0) { //如果左右一樣
+        ans += map[i][j];
+        visited[i][j] = 1;
+        visited[i][j-1] = 1;
+        Straight_Check(map, visited, i, j); //檢查左邊的上下
+        Straight_Check(map, visited, i, j-1); //檢查右邊的上下
+        Side_Check(map, visited, i, j); //檢查左右
+      }
+      if(i != 0 && map[i][j] == map[i-1][j] && visited[i-1][j] == 0) { //如果上下一樣
+        ans += map[i][j];
+        visited[i][j] = 1;
+        visited[i-1][j] = 1;
+        Side_Check(map, visited, i, j); //檢查上面左右
+        Side_Check(map, visited, i-1, j); //檢查下面左右
+        Straight_Check(map, visited, i, j); //檢查上下
+      } 
+    }
+  }
+  cout << ans;
+  return 0;
+}
+void Straight_Check(vector<vector<int>> MAP, vector<vector<int>> & VISITED, int x, int y) { //檢查上下
+  int UP = VISITED[x][y], Down = VISITED[x][y], newX1 = x, newX2 = x;
+  while(UP == 1 && newX1 > 0) {newX1--; UP = VISITED[newX1][y];} 
+  while(Down == 1 && newX2 < MAP.size()-1) {newX2++; Down = VISITED[newX2][y];}
+  if(MAP[newX1][y] == MAP[newX2][y] && VISITED[newX1][y] == 0 && VISITED[newX2][y] == 0) { //上下一樣 // "&&"後面是拿來檢查邊界沒被查過是否用過的值
+    VISITED[newX1][y] = 1;
+    VISITED[newX2][y] = 1;
+    ans += MAP[newX1][y];
+    if (newX1 >= 0 || newX2 < MAP.size()) {
+      Straight_Check(MAP, VISITED, newX1, y); //檢查上下
+      Side_Check(MAP, VISITED, newX1, y); //檢查上面左右
+      Side_Check(MAP, VISITED, newX2, y); //檢查下面左右
+    }
+  }
+}
+void Side_Check(vector<vector<int>> MAP, vector<vector<int>> & VISITED, int x, int y) { //檢查左右
+  int LEFT = VISITED[x][y], RIGHT = VISITED[x][y], newY1 = y, newY2 = y;
+  while(LEFT == 1 && newY1 > 0) {newY1--; LEFT = VISITED[x][newY1];} 
+  while(RIGHT == 1 && newY2 < MAP[0].size()-1) {newY2++; RIGHT = VISITED[x][newY2];}
+  if(MAP[x][newY1] == MAP[x][newY2] && VISITED[x][newY1] == 0 && VISITED[x][newY2] == 0) { //左右一樣 // "&&"後面是拿來檢查邊界沒被查過是否用過的值
+    VISITED[x][newY1] = 1;
+    VISITED[x][newY2] = 1;
+    ans += MAP[x][newY2];
+    if (newY1 >= 0 || newY2 < MAP[0].size()) {
+      Straight_Check(MAP, VISITED, x, newY1); //檢查左邊的上下
+      Straight_Check(MAP, VISITED, x, newY2); //檢查右邊的上下
+      Side_Check(MAP, VISITED, x, newY2); //檢查左右
+    }
+  }
+}
