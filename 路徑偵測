@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+int l=0, r=0, back=0;
+void turn(char dir, int x, int y, int lastx, int lasty) {
+  int X=0, Y=0;
+  X = x-lastx;
+  Y = y-lasty;
+  
+  if(dir=='U') {
+    if(X<0) l++;
+    else if(X>0) r++;
+    else if(Y<0) back++;
+  }
+  else if(dir=='D') {
+    if(X>0) l++;
+    else if(X<0) r++;
+    else if(Y>0) back++;
+  }
+  else if(dir=='L') {
+    if(Y<0) l++;
+    else if(Y>0) r++;
+    else if(X>0) back++;
+  }
+  else {
+    if(Y>0) l++;
+    else if(Y<0) r++;
+    else if(X<0) back++;
+  }
+}
+int main() {
+  int n, x=0, y=0, lastX=0, lastY=0;
+  char direction='R';
+  cin >> n;
+  for(int i=0; i<n; i++) {
+    cin >> x >> y;
+    if(i==0) {lastX=x; lastY=y; continue;}
+    turn(direction, x, y, lastX, lastY);
+    if(x==lastX && y-lastY>0) direction='U';
+    else if(x==lastX) direction='D';
+    else if(y==lastY && x-lastX>0) direction='R';
+    else if(y==lastY) direction='L';
+    lastX=x;
+    lastY=y;
+  }
+  cout << l << " " << r << " " << back; 
+  return 0;
+}
