@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+int shape[5][4][4], w[5]={1,3,2,3,2}, g[35][55],Throw;
+int main() {
+  int r, c, n, last=0;
+  cin >> r >> c >> n;
+  for(int i=0; i<4; i++) shape[0][i][0]=1; //貨物形狀
+  for(int i=0; i<3; i++) shape[1][0][i]=1;
+  for(int i=0; i<2; i++) for(int j=0; j<2; j++) shape[2][i][j]=1;
+  for(int i=0; i<3; i++) shape[3][1][i]=1;
+  shape[3][0][2]=1;
+  for(int i=0; i<3; i++) for(int j=0; j<2; j++) shape[4][i][j]=1;
+  shape[4][0][0]=0;
+  
+  for(int iter=0; iter<n; iter++) {
+    char t;
+    int y, T;
+    cin >> t >> y;
+    T=t-'A';
+    int L;
+    for(L=c-1; L>=0; L--) {
+      bool visited=0;
+      for(int i=0; i<4; i++) {
+        for(int j=0; j<4; j++) {
+        if(!shape[T][i][j]) continue; //如果貨物有佔到這個位子
+        if(g[i+y][j+L]) visited=1; //現在放的位子已經有貨物了
+        }
+      }
+      if(visited) break; //現在的L是遇到已經有貨物的位子
+    }
+    L++; //往後推一列放
+    if(c-L < w[T]) { Throw++; continue; } //寬放不進去
+    for(int i=0; i<4; i++) {
+      for(int j=0; j<4; j++) {
+        if(shape[T][i][j]) g[i+y][j+L]=1;
+      }
+    }
+  }
+  for(int i=0; i<r; i++) {
+    for(int j=0; j<c; j++) {
+      if(g[i][j]==0) last++;
+    }
+  }
+  cout << last << " " << Throw;
+  return 0;
+}
