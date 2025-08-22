@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+  int n, m, a;
+  cin >> n >> m;
+  vector<int> S(n+1), T(n+1), turn, lose(n+1, 0);
+  for(int i=1; i<n+1; i++) cin >> S[i];
+  for(int i=1; i<n+1; i++) cin >> T[i];
+  for(int i=1; i<n+1; i++) { cin >> a; turn.push_back(a); }
+  while(turn.size()>1) {
+    vector<int> winner, loser;
+    for(int i=0; i<turn.size(); i+=2) {
+      if(i+1 == turn.size()) { winner.push_back(turn[i]); continue; }
+      int player1=turn[i], player2=turn[i+1];
+      long long a = S[player1], b = T[player1], c = S[player2], d = T[player2];
+      if(a*b >= c*d) { //玩家一獲勝
+        winner.push_back(player1);
+        lose[player2]++;
+        S[player1] += c*d/(2*b);
+        T[player1] += c*d/(2*a);
+        S[player2] += c/2;
+        T[player2] += d/2;
+        if(lose[player2] < m) loser.push_back(player2);      }
+      else { //玩家二獲勝
+        winner.push_back(player2);
+        lose[player1]++;
+        S[player1] += a/2;
+        T[player1] += b/2;
+        S[player2] += a*b/(2*d);
+        T[player2] += a*b/(2*c);
+        if(lose[player1] < m) loser.push_back(player1);      }
+    }
+    turn.clear();
+    for(int i:winner) turn.push_back(i);
+    for(int i:loser) turn.push_back(i); 
+  }
+  cout << turn[0];
+  return 0;
+}
